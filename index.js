@@ -1,16 +1,25 @@
 import React, { PureComponent } from 'react'
 
 export class StatelessComponent extends PureComponent {
-  constructor(props) {
-    super(props)
-    props.onMount && (this.componentDidMount = props.onMount)
-    props.onCatch && (this.componentDidCatch = props.onCatch)
-    props.onUpdate && (this.componentDidUpdate = props.onUpdate)
-    props.onUnmount && (this.componentWillUnmount = props.onUnmount)
+  componentDidMount() {
+    this.props.onMount && this.props.onMount(this.props)
+  }
+  componentDidCatch() {
+    this.props.onCatch && this.props.onCatch(this.props)
+  }
+  componentDidUpdate() {
+    this.props.onUpdate && this.props.onUpdate(this.props)
+  }
+  componentWillUnmount() {
+    this.props.onUnmount && this.props.onUnmount(this.props)
   }
 }
 
-export const Pure = render => class Pure extends StatelessComponent {
+export const Pure = render => class Pure extends PureComponent {
+  render() { return render(this.props) }
+}
+
+export const Stateless = render => class Pure extends StatelessComponent {
   render() { return render(this.props) }
 }
 
