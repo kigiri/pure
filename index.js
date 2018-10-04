@@ -24,10 +24,8 @@ const handleParamsOrder = fn => (render, options) => {
   return options ? fn(render, options) : fn(render, EMPTY_OPTIONS)
 }
 
-const extendRender = (render, propsTransformer) => props => {
-  propsTransformer(props)
-  return render(props)
-}
+const extendRender = (render, propsMapper) => props =>
+  render(propsMapper(props))
 
 export const Pure = handleParamsOrder((render, options) => {
   const BaseClass = options.withEvents ? PureEventComponent : PureComponent
@@ -41,18 +39,24 @@ export const Pure = handleParamsOrder((render, options) => {
       ? options.classNames.join(' ')
       : (options.classNames || options.className)
 
-    render = extendRender(render, props => props.className = props.className
-      ? `${props.className} ${classNames}`
-      : classNames)
+    render = extendRender(render, props => ({
+      ...props,
+      className: props.className
+        ? `${props.className} ${classNames}`
+        : classNames
+    }))
   }
 
   if (options.classFlags) {
-    render = extendRender(render, new Function([ 'p' ], Object
-      .entries(options.classFlags)
-      .map(([ flag, className ]) => `p.${flag} && (p.className
-  ? p.className += ' ${className}'
-  : p.className = '${className}')`)
-      .join('\n')))
+    render = extendRender(render, new Function([ 'p' ], [
+      'var r = Object.assign({}, p)',
+      ...Object.entries(options.classFlags)
+        .map(([ flag, className ]) => `
+  p.${flag} && (r.className
+  ? r.className += ' ${className}'
+  : r.className = '${className}')`),
+      'return r',
+    ].join('\n')))
   }
 
   // An anonymous class takes the name of the property it's assign to.
