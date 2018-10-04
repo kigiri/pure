@@ -11,7 +11,7 @@ If you treat your state as immutable, then your components should make use of th
 npm i @kigiri/pure react
 ```
 
-## usage
+## API
 The api provide a `Pure` higher order component to create `PureComponents` from a just render function.
 
 ### Options
@@ -23,9 +23,40 @@ The api also give a `withEvent` options with a mean to listen to some of the com
  - `onUpdate` -> `componentDidUpdate`
  - `onUnmount` -> `componentWillUnmount`
 
+```js
+export const WithEvents = Pure({ withEvent: true }, props =>
+  <div>
+    Look ma, no classes !
+  </div>
+)
+```
+
 #### .`classNames`
 The `classNames` options that allow you to merge some classes with the one
 you may be given in props.
+
+```js
+export const ClassNames = ({ classNames: [ 'b', 'c' ] }, props =>
+  <div className={props.className}>
+    Merged class names !
+  </div>
+)
+```
+
+#### .`classFlags`
+The `classFlags` option generates boolean flags as short hands for applying css classes.
+```js
+// options can be passed last or first.
+export const FlagClass = (props =>
+  <div className={props.className}>
+    Flag classes
+  </div>, {
+  classFlags: {
+    disabled: 'dis',
+    selected: 'bp-selected'
+  }
+})
+```
 
 #### .`name`
 The `name` option allow you to specify the expected name of your component.
@@ -37,9 +68,8 @@ By default it will try use (in that order):
 
 Usefull for debuging.  
 
-#### .`classFlags`
-The `classFlags` option generates boolean flags as short hands for applying css classes.
 
+### Examples
 
 ```js
 // Components.js
@@ -48,30 +78,10 @@ import { Pure, React } from '@kigiri/pure'
 export const NoOptions = Pure(props =>
   <div className={props.selected ? 'selected' : 'normal' }>
     {props.name}
-  </div>)
-
-export const ClassNames = ({ classNames: [ 'b', 'c' ] }, props =>
-  <div className={props.className}>
-    Merged class names !
   </div>
 )
 
-// options can be passed last or first.
-export const FlagClass = (props =>
-  <div className={props.className}>
-    Flag classes
-  </div>, {
-  classFlags: {
-    disabled: 'dis',
-    selected: 'bp-selected'
-  }
-})
-
-export const WithEvents = Pure({ withEvent: true }, props =>
-  <div>
-    Look ma, no classes !
-  </div>
-)
+// ... + previous examples
 ```
 
 > `React` is passed down for convenience
