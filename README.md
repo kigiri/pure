@@ -14,6 +14,19 @@ npm i @kigiri/pure react
 ## API
 The api provide a `Pure` higher order component to create `PureComponents` from a just render function.
 
+```js
+// Components.js
+import { Pure, React } from '@kigiri/pure'
+
+export const NoOptions = Pure(props =>
+  <div className={props.selected ? 'selected' : 'normal' }>
+    {props.name}
+  </div>
+)
+```
+
+> `React` is passed down for convenience
+
 ### Options
 
 #### .`withEvent`
@@ -69,22 +82,7 @@ By default it will try use (in that order):
 Usefull for debuging.  
 
 
-### Examples
-
-```js
-// Components.js
-import { Pure, React } from '@kigiri/pure'
-
-export const NoOptions = Pure(props =>
-  <div className={props.selected ? 'selected' : 'normal' }>
-    {props.name}
-  </div>
-)
-
-// ... + previous examples
-```
-
-> `React` is passed down for convenience
+### Usage
 
 ```js
 // Demo
