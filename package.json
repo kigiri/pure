@@ -4,7 +4,7 @@
   "description": "A wrapper for creating react PureComponents",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node -r esm test.js"
   },
   "peerDependencies": {
     "react": ">= 15.3.0"
@@ -15,5 +15,17 @@
     "PureComponent"
   ],
   "author": "kigiri",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "react": "^16.5.2",
+    "esm": "^3.0.84"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kigiri/pure.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kigiri/pure/issues"
+  },
+  "homepage": "https://github.com/kigiri/pure#readme"
 }
